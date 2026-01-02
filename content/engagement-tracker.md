@@ -32,7 +32,7 @@
 | Lead workflow (catering) | No defined path from prospect → close means leads leak. Need prospect list → outreach → follow-up → clean handoff to on-site team. | Not started — pending priority decision |
 | Business Map | Shared reference for how money flows, who owns what, where things stick. | Scaffolded |
 | Walkthrough-to-payment workflow (weddings) | High-ROI lever: removes friction in a channel with high close rate. Becomes more justified as incremental revenue increases operational load (systems are interconnected). May be worth pursuing early in lightweight form as proof of capability—a fast, custom improvement that demonstrates how targeted solutions convert directly into throughput. | Not started — pending priority decision |
-| Marketing automation system | Replace marketing director function without redistributing workload to core team. Automated workflow (likely n8n + generative AI) handed to stakeholder who directs it. Salary redistributed to Elena/Ayra. Time-sensitive — needs to be ready before/when marketing director exits. Derek builds. | Not started — technical build pending |
+| Marketing automation system | Replace marketing director function without redistributing workload to core team. Automated workflow (likely n8n + generative AI) handed to stakeholder who directs it. Salary redistributed to Elaynah/Aura. Time-sensitive — needs to be ready before/when marketing director exits. Derek builds. | Not started — technical build pending |
 
 ---
 

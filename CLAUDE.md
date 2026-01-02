@@ -24,6 +24,18 @@ python3 -m http.server 8080
 
 Then open: http://localhost:8080
 
+## Dashboard Contract
+
+**CRITICAL:** The dashboard parses specific markdown section names from artifacts. These section names **must not change** without updating `app.js`.
+
+| Artifact | Required Sections |
+|----------|-------------------|
+| command-center.md | `## Phase`, `## Active`, `## Blocked`, `## Next`, `## Current Session` |
+| engagement-tracker.md | `## Decisions`, `## Working Hypotheses`, `## Deliverables` |
+| sessions/_manifest.md | Table with columns: Session, Date, Type, Status, Notes |
+
+See `engagement/artifacts/README.md` for the canonical contract documentation.
+
 ## Content Structure
 
 The dashboard expects these markdown files in `content/`:
@@ -41,7 +53,13 @@ The dashboard expects these markdown files in `content/`:
 - `engagement-log.md` - Session notes and decisions
 - `business-map.md` - Business structure and operations
 - `people.md` - Stakeholder information
-- `notes-ideas.md` - Ideas and observations
+- `initiatives.md` - Pending asks, commitments, goals
+
+### Sessions
+- `sessions/_manifest.md` - Sessions index (parsed for list view)
+- `sessions/YYYY-MM-DD_type/` - Session folders containing:
+  - `session.md` - Session overview with status, routing queue, notes index
+  - `HHMM-descriptor.md` - Individual meeting notes
 
 ## Features
 

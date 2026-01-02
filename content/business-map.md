@@ -50,13 +50,13 @@ See **people.md** for full detail on roles, duties, ownership, motivations.
 
 **Ownership:** Peterson CPA (Friendswood) — Uncle Don, John Peterson, Joe Peterson. Firm purchased and owns Silver Sycamore. Act as board of directors with Uncle Michael.
 
-**Core team:** Uncle Michael (operator, board), Elena (core staff), Ayra (core staff)
+**Core team:** Uncle Michael (operator, board), Elaynah (core staff), Aura (core staff)
 Uncle Michael and core team view Silver Sycamore as a place they can retire. Commitment is high.
 
 **Operations support:** Derek (business operations consultant, family)
 
 **Legacy staff:**
-- Wedding coordinator — exiting (two weeks notice). Hiring replacement; Elena/Ayra covering interim.
+- Wedding coordinator — exiting (two weeks notice). Hiring replacement; Elaynah/Aura covering interim.
 - Marketing director — exiting (timing TBD). Function to be replaced by automation system, not redistributed as workload.
 
 *Transition:* Owners avoided major staff changes for ~1 year post-acquisition due to inherited bookings and continuity obligations. That period is ending — staffing, role clarity, and process changes are now on the table.

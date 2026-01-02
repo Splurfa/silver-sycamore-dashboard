@@ -65,8 +65,8 @@ Wedding coordinator (legacy staff) put in her two weeks notice today. She's exit
 
 **Summary:**
 - Created dedicated people artifact to track roles, duties, ownership, motivations
-- Key insight: Michael, Elena, and Ayra all view Silver Sycamore as a place they can retire. They want to grow it into something. Commitment and motivation from Elena and Ayra is very high.
-- Spelling note: Elena (not Alaina)
+- Key insight: Michael, Elaynah, and Aura all view Silver Sycamore as a place they can retire. They want to grow it into something. Commitment and motivation from Elaynah and Aura is very high.
+- Spelling note: Elaynah (not Alaina)
 
 **Implications:**
 - Core team is invested long-term, not just working a job
@@ -137,8 +137,8 @@ Wedding coordinator (legacy staff) put in her two weeks notice today. She's exit
 **Source:** Derek
 
 **Summary:**
-- Wedding coordination: Elena and Ayra handling interim. Active hiring for dedicated coordinator. Structure allows assistant coordinators to branch out by event type as business grows.
-- Marketing director: Function to be replaced by automation system (n8n + generative AI), not redistributed as workload. Derek builds system, hands keys to stakeholder who directs it. Salary redistributed to Elena/Ayra. Michael aware of general direction but not fully briefed on technical approach.
+- Wedding coordination: Elaynah and Aura handling interim. Active hiring for dedicated coordinator. Structure allows assistant coordinators to branch out by event type as business grows.
+- Marketing director: Function to be replaced by automation system (n8n + generative AI), not redistributed as workload. Derek builds system, hands keys to stakeholder who directs it. Salary redistributed to Elaynah/Aura. Michael aware of general direction but not fully briefed on technical approach.
 - Marketing automation added as deliverable — time-sensitive, needs to be ready before marketing director exits.
 
 **Implications:**

@@ -3,58 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silver Sycamore - Engagement Dashboard</title>
+    <title>Silver Sycamore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=5.1">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <!-- Fixed Sidebar Navigation -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h1>Silver Sycamore</h1>
-            <p class="subtitle">Consulting Engagement</p>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header">
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="nav-toggle-icon"></span>
+        </button>
+        <div class="header-content">
+            <h1 class="logo">Silver Sycamore</h1>
+            <div class="phase" id="phase">Loading...</div>
         </div>
-        <nav class="sidebar-nav" id="sidebar-nav">
-            <!-- Populated by app.js -->
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <span class="sun">Light</span>
+            <span class="moon">Dark</span>
+        </button>
+    </header>
+
+    <!-- Sidebar backdrop for mobile -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+            <ul class="nav-list" role="menubar">
+                <li role="none"><a href="#/dashboard" class="nav-item active" data-page="dashboard" role="menuitem">Dashboard</a></li>
+                <li role="none"><a href="#/sessions" class="nav-item" data-page="sessions" role="menuitem">Sessions</a></li>
+                <li role="none"><a href="#/revenue" class="nav-item" data-page="revenue" role="menuitem">Revenue</a></li>
+                <li role="none"><a href="#/decisions" class="nav-item" data-page="decisions" role="menuitem">Decisions</a></li>
+                <li role="none"><a href="#/context" class="nav-item" data-page="context" role="menuitem">Context</a></li>
+                <li role="none"><a href="#/activity" class="nav-item" data-page="activity" role="menuitem">Activity</a></li>
+            </ul>
         </nav>
-    </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-        <!-- Header with Phase and Status -->
-        <header class="header">
-            <div class="phase-indicator" id="phase-indicator">
-                Loading...
+        <!-- Main Content -->
+        <main class="main" id="main-content">
+
+            <!-- ========== DASHBOARD PAGE ========== -->
+            <div class="page active" id="page-dashboard" data-page="dashboard">
+                <h2 class="page-title">Dashboard</h2>
+
+                <!-- Status Grid -->
+                <div class="card">
+                    <div class="status-grid">
+                        <div class="status-column">
+                            <h3 class="subsection-title">Active</h3>
+                            <ul class="simple-list" id="active-list"></ul>
+                        </div>
+                        <div class="status-column">
+                            <h3 class="subsection-title">Blocked</h3>
+                            <ul class="simple-list blocked-list" id="blocked-list"></ul>
+                        </div>
+                        <div class="status-column">
+                            <h3 class="subsection-title">Next</h3>
+                            <ol class="simple-list" id="next-list"></ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Session Link -->
+                <div class="card session-card">
+                    <h3 class="subsection-title">Current Session</h3>
+                    <p id="session-link">No active session</p>
+                </div>
+
+                <!-- System Flow Diagram (Collapsible) -->
+                <div class="card system-flow-card">
+                    <div class="accordion">
+                        <button class="accordion-header" aria-expanded="false" tabindex="0">
+                            System Flow — Information Routing
+                        </button>
+                        <div class="accordion-content">
+                            <div class="flow-diagram">
+                        <!-- Input -->
+                        <div class="flow-box flow-intake">
+                            <div class="flow-label">Input</div>
+                            <div class="flow-title">CONVERSATION</div>
+                            <div class="flow-sub">Your fluid intake - stream of consciousness, questions, updates</div>
+                        </div>
+
+                        <div class="flow-arrow">↓</div>
+
+                        <!-- Processing -->
+                        <div class="flow-box flow-sorter">
+                            <div class="flow-label">Processing</div>
+                            <div class="flow-title">CLAUDE SORTS</div>
+                        </div>
+
+                        <div class="flow-arrow">↓</div>
+
+                        <!-- Four outputs -->
+                        <div class="flow-grid-4">
+                            <div class="flow-box flow-log">
+                                <div class="flow-label">History</div>
+                                <div class="flow-title">engagement-log</div>
+                                <div class="flow-sub">Frozen, chronological</div>
+                            </div>
+                            <div class="flow-box flow-parking">
+                                <div class="flow-label">Holding</div>
+                                <div class="flow-title">initiatives</div>
+                                <div class="flow-sub">Asks, commitments, pending</div>
+                            </div>
+                            <div class="flow-box flow-channels">
+                                <div class="flow-label">Domain</div>
+                                <div class="flow-title">channel docs</div>
+                                <div class="flow-sub">catering, weddings, other</div>
+                            </div>
+                            <div class="flow-box flow-tracker">
+                                <div class="flow-label">Outcomes</div>
+                                <div class="flow-title">engagement-tracker</div>
+                                <div class="flow-sub">Decisions, deliverables, wins</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">↓</div>
+
+                        <!-- Context layer -->
+                        <div class="flow-grid-2">
+                            <div class="flow-box flow-context">
+                                <div class="flow-label">Context</div>
+                                <div class="flow-title">business-map</div>
+                                <div class="flow-sub">Structure, systems, money</div>
+                            </div>
+                            <div class="flow-box flow-context">
+                                <div class="flow-label">Context</div>
+                                <div class="flow-title">people</div>
+                                <div class="flow-sub">Roles, duties, ownership</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow">↓</div>
+
+                                <!-- Command Center -->
+                                <div class="flow-box flow-command">
+                                    <div class="flow-label">Dashboard</div>
+                                    <div class="flow-title">COMMAND CENTER</div>
+                                    <div class="flow-sub">Aggregates from all above - derived, not raw input</div>
+                                </div>
+                            </div><!-- /.flow-diagram -->
+
+                            <!-- Routing Rules (text-based, no color key needed) -->
+                            <div class="flow-rules">
+                                <h4>When you share something, Claude routes it:</h4>
+                                <ul class="rules-list">
+                                    <li><strong>Event or decision made</strong> → engagement-log</li>
+                                    <li><strong>Ask or commitment</strong> → initiatives</li>
+                                    <li><strong>Channel-specific info</strong> → catering / weddings / other</li>
+                                    <li><strong>Outcome or win</strong> → engagement-tracker</li>
+                                    <li><strong>Structure or role info</strong> → business-map / people</li>
+                                </ul>
+                                <p class="rules-note">The dashboard aggregates from all artifacts — it's derived, not direct input.</p>
+                            </div>
+                        </div><!-- /.accordion-content -->
+                    </div><!-- /.accordion -->
+                </div><!-- /.card -->
             </div>
-            <div class="status-counts" id="status-counts">
-                <div class="status-badge blocked">
-                    <div class="count" id="blocked-count">0</div>
-                    <div class="label">Blocked</div>
+
+            <!-- ========== SESSIONS PAGE ========== -->
+            <div class="page" id="page-sessions" data-page="sessions">
+                <h2 class="page-title">Sessions</h2>
+
+                <div class="sessions-list card" id="sessions-list">
+                    <p>Loading sessions...</p>
                 </div>
-                <div class="status-badge staged">
-                    <div class="count" id="staged-count">0</div>
-                    <div class="label">Staged</div>
+
+                <div class="session-detail card" id="session-detail" style="display: none;">
+                    <div class="session-header">
+                        <button class="back-button" id="session-back">← Back to sessions</button>
+                        <h3 class="session-title" id="session-title"></h3>
+                        <span class="session-status" id="session-status"></span>
+                    </div>
+                    <nav class="tab-bar session-tabs" role="tablist" aria-label="Session files" id="session-tabs">
+                    </nav>
+                    <div class="tab-content active" id="session-content" role="tabpanel">
+                    </div>
                 </div>
-                <div class="status-badge scratch">
-                    <div class="count" id="scratch-count">0</div>
-                    <div class="label">Scratch</div>
-                </div>
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                    <span class="theme-toggle-icon moon">🌙</span>
-                    <span class="theme-toggle-icon sun">☀️</span>
-                </button>
             </div>
-        </header>
 
-        <!-- Rendered Markdown Content -->
-        <article class="content" id="content">
-            <p>Loading content...</p>
-        </article>
-    </main>
+            <!-- ========== REVENUE PAGE ========== -->
+            <div class="page" id="page-revenue" data-page="revenue">
+                <h2 class="page-title">Revenue</h2>
 
-    <script src="app.js"></script>
+                <nav class="tab-bar" role="tablist" aria-label="Revenue channels">
+                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-catering" data-tab="catering">Catering</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-weddings" data-tab="weddings">Weddings</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-other" data-tab="other">Other</button>
+                </nav>
+
+                <div class="tab-content active" id="tab-catering" role="tabpanel">
+                    <div class="card" id="catering-content"></div>
+                </div>
+                <div class="tab-content" id="tab-weddings" role="tabpanel">
+                    <div class="card" id="weddings-content"></div>
+                </div>
+                <div class="tab-content" id="tab-other" role="tabpanel">
+                    <div class="card" id="other-content"></div>
+                </div>
+            </div>
+
+            <!-- ========== DECISIONS PAGE ========== -->
+            <div class="page" id="page-decisions" data-page="decisions">
+                <h2 class="page-title">Decisions</h2>
+
+                <nav class="tab-bar" role="tablist" aria-label="Decision categories">
+                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-confirmed" data-tab="confirmed">Confirmed</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-hypotheses" data-tab="hypotheses">Hypotheses</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-deliverables" data-tab="deliverables">Deliverables</button>
+                </nav>
+
+                <div class="tab-content active" id="tab-confirmed" role="tabpanel">
+                    <div class="card" id="decisions-content"></div>
+                </div>
+                <div class="tab-content" id="tab-hypotheses" role="tabpanel">
+                    <div class="card" id="hypotheses-content"></div>
+                </div>
+                <div class="tab-content" id="tab-deliverables" role="tabpanel">
+                    <div class="card" id="deliverables-content"></div>
+                </div>
+            </div>
+
+            <!-- ========== CONTEXT PAGE ========== -->
+            <div class="page" id="page-context" data-page="context">
+                <h2 class="page-title">Context</h2>
+
+                <nav class="tab-bar" role="tablist" aria-label="Context categories">
+                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-business" data-tab="business">Business</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-people" data-tab="people">People</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-documents" data-tab="documents">Documents</button>
+                </nav>
+
+                <div class="tab-content active" id="tab-business" role="tabpanel">
+                    <div class="card" id="business-content"></div>
+                </div>
+                <div class="tab-content" id="tab-people" role="tabpanel">
+                    <div class="card" id="people-content"></div>
+                </div>
+                <div class="tab-content" id="tab-documents" role="tabpanel">
+                    <div class="card" id="documents-content"></div>
+                </div>
+            </div>
+
+            <!-- ========== ACTIVITY PAGE ========== -->
+            <div class="page" id="page-activity" data-page="activity">
+                <h2 class="page-title">Activity</h2>
+
+                <nav class="tab-bar" role="tablist" aria-label="Activity categories">
+                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-log" data-tab="log">Log</button>
+                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-initiatives" data-tab="initiatives">Initiatives</button>
+                </nav>
+
+                <div class="tab-content active" id="tab-log" role="tabpanel">
+                    <div class="card" id="activity-content"></div>
+                </div>
+                <div class="tab-content" id="tab-initiatives" role="tabpanel">
+                    <div class="card" id="initiatives-content"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for detail views -->
+    <div class="modal" id="modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="app.js?v=5.1"></script>
 </body>
 </html>

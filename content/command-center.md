@@ -26,31 +26,26 @@ Evaluating priorities — catering leading hypothesis, operational assessment pe
 
 ---
 
-## Pending
+## Current Session
 
-### Session Scratch
-*Quick capture during session. Sorted at session close.*
+**Current:** [2026-01-02_onsite](../sessions/2026-01-02_onsite/)
 
-[empty]
+**Recent sessions:**
+- *(none yet)*
 
-### Staged Changes
+---
+
+## Staged Changes
+
 *Translated inputs awaiting commit approval. Cleared after commit or rejection.*
 
 [none]
 
 ---
 
-## Project Files Index
-
-*Current contents of project files. Checked at session start for sync.*
-
-[empty — no company docs uploaded yet]
-
----
-
 ## Flags
 
-- [ ] 0 items in parking lot needing triage → notes-ideas.md
+- [ ] 0 active initiatives → initiatives.md
 - [ ] 3 blocked items awaiting input
 - [ ] 0 staged changes pending approval
 
@@ -60,13 +55,13 @@ Evaluating priorities — catering leading hypothesis, operational assessment pe
 
 | Context | Link |
 |---------|------|
-| Dashboard | engagement-dashboard.html |
-| System flow | system-flow.html |
+| Sessions | ../sessions/ |
 | Business | business-map.md |
 | People | people.md |
 | Outcomes | engagement-tracker.md |
 | History | engagement-log.md |
-| Parking lot | notes-ideas.md |
+| Initiatives | initiatives.md |
+| Documents | document-index.md |
 | **Channels** | |
 | ↳ Catering (primary) | catering.md |
 | ↳ Weddings (secondary) | weddings.md |
@@ -74,4 +69,4 @@ Evaluating priorities — catering leading hypothesis, operational assessment pe
 
 ---
 
-*Last session: Translation layer protocol added, command center restructured with Pending container and Project Files Index*
+*Last session: Artifacts moved to subfolder, static dashboard removed*

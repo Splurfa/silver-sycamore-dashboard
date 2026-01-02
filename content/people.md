@@ -5,8 +5,8 @@
 | Name | Role | Status | Commitment |
 |------|------|--------|------------|
 | Uncle Michael | Operator, Board | Full-time | High (retirement play) |
-| Elena | Core staff | Part-time | High (retirement play) |
-| Ayra | Core staff | Full-time | High (retirement play) |
+| Elaynah | Core staff | Part-time | High (retirement play) |
+| Aura | Core staff | Full-time | High (retirement play) |
 
 ## Financial / Ownership
 
@@ -34,12 +34,12 @@
 ## Transitions
 
 ### Wedding Coordination
-**Plan:** Team effort by Elena and Ayra in interim. Active hiring for dedicated Wedding Coordinator position. Structure allows for assistant coordinators to branch out across event types/verticals as business grows.
+**Plan:** Team effort by Elaynah and Aura in interim. Active hiring for dedicated Wedding Coordinator position. Structure allows for assistant coordinators to branch out across event types/verticals as business grows.
 
 **Status:** Ad posted. Hiring in progress.
 
 ### Marketing Director
-**Plan:** Function will be replaced by automated system, not redistributed as manual workload. Derek building marketing automation workflow (n8n + generative AI). System will be handed to a current stakeholder who directs it as an intelligent operator. Salary to be redistributed to Elena and Ayra.
+**Plan:** Function will be replaced by automated system, not redistributed as manual workload. Derek building marketing automation workflow (n8n + generative AI). System will be handed to a current stakeholder who directs it as an intelligent operator. Salary to be redistributed to Elaynah and Aura.
 
 **Status:** Technical build pending. Michael aware of general direction but not fully briefed on technical approach.
 
@@ -59,14 +59,14 @@
 **Owns:**
 - [TBD]
 
-### Elena
+### Elaynah
 **Does:**
 - [TBD]
 
 **Owns:**
 - [TBD]
 
-### Ayra
+### Aura
 **Does:**
 - [TBD]
 
@@ -83,5 +83,5 @@
 ---
 
 ## Open Questions
-- What do Elena and Ayra currently do? (duties to be documented)
+- What do Elaynah and Aura currently do? (duties to be documented)
 - What's currently tied to marketing director role? (contracts, ad spend, vendor relationships)
