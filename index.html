@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Sycamore - Engagement Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- Fixed Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>Silver Sycamore</h1>
+            <p class="subtitle">Consulting Engagement</p>
+        </div>
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <!-- Populated by app.js -->
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Header with Phase and Status -->
+        <header class="header">
+            <div class="phase-indicator" id="phase-indicator">
+                Loading...
+            </div>
+            <div class="status-counts" id="status-counts">
+                <div class="status-badge blocked">
+                    <div class="count" id="blocked-count">0</div>
+                    <div class="label">Blocked</div>
+                </div>
+                <div class="status-badge staged">
+                    <div class="count" id="staged-count">0</div>
+                    <div class="label">Staged</div>
+                </div>
+                <div class="status-badge scratch">
+                    <div class="count" id="scratch-count">0</div>
+                    <div class="label">Scratch</div>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-toggle-icon moon">🌙</span>
+                    <span class="theme-toggle-icon sun">☀️</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Rendered Markdown Content -->
+        <article class="content" id="content">
+            <p>Loading content...</p>
+        </article>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
