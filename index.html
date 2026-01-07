@@ -4,281 +4,934 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silver Sycamore</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=5.1">
+    <style>
+        /* === RESET & VARIABLES === */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg-secondary: #FAFBFC;
+            --border: #E1E4E8;
+            --border-light: #EAECEF;
+            --text-primary: #24292E;
+            --text-secondary: #586069;
+            --text-muted: #959DA5;
+            --accent: #0366D6;
+            --accent-bg: #F1F8FF;
+            --success: #28A745;
+            --warning: #F9A825;
+            --stage-map: #E3F2FD;
+            --stage-outcome: #FFF3E0;
+            --stage-verify: #E8F5E9;
+            --stage-exchange: #F3E5F5;
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --radius: 6px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        html {
+            font-size: 14px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* === HEADER === */
+        .header {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .phase-badge {
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+
+        .last-updated {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* === NAVIGATION === */
+        .nav {
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 24px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent);
+        }
+
+        /* === PAGE VIEWS === */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* === PIPELINE STAGES === */
+        .stage {
+            margin-bottom: 32px;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stage-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .stage-label.map { background: var(--stage-map); color: #1565C0; }
+        .stage-label.outcome { background: var(--stage-outcome); color: #E65100; }
+        .stage-label.verify { background: var(--stage-verify); color: #2E7D32; }
+        .stage-label.exchange { background: var(--stage-exchange); color: #7B1FA2; }
+
+        .stage-title {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .stage-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* === ITEMS TABLE === */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .items-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .items-table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .items-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .item-type {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 6px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text-secondary);
+        }
+
+        .item-status {
+            color: var(--text-secondary);
+        }
+
+        .item-action {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* === EXCHANGE SECTION === */
+        .exchange-section {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 2px solid var(--border);
+        }
+
+        .exchange-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 12px 0;
+            user-select: none;
+        }
+
+        .exchange-header:hover .exchange-title {
+            color: var(--accent);
+        }
+
+        .exchange-toggle {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .exchange-section.open .exchange-toggle {
+            transform: rotate(90deg);
+        }
+
+        .exchange-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color 0.15s ease;
+        }
+
+        .exchange-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .exchange-content {
+            display: none;
+            padding-top: 16px;
+        }
+
+        .exchange-section.open .exchange-content {
+            display: block;
+        }
+
+        /* === SESSIONS === */
+        .sessions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .session-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .session-item:last-child {
+            border-bottom: none;
+        }
+
+        .session-date {
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 100px;
+        }
+
+        .session-type {
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 2px 8px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .session-status {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .session-status.active { color: var(--success); }
+        .session-status.closed { color: var(--text-muted); }
+
+        .session-summary {
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* === SESSION DETAIL === */
+        .session-detail {
+            display: none;
+        }
+
+        .session-detail.active {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 0;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .session-detail-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .session-detail-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .session-detail-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .session-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .session-content h2 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .session-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .session-content p {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .session-content ul, .session-content ol {
+            margin-bottom: 12px;
+            padding-left: 24px;
+        }
+
+        .session-content li {
+            margin-bottom: 6px;
+        }
+
+        .session-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        .session-content th, .session-content td {
+            text-align: left;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .session-content th {
+            background: var(--bg-secondary);
+            font-weight: 500;
+        }
+
+        /* === EMPTY STATES === */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .nav-inner {
+                overflow-x: auto;
+                padding: 0 16px;
+            }
+
+            .items-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .session-item {
+                flex-wrap: wrap;
+            }
+
+            .session-summary {
+                width: 100%;
+                margin-top: 8px;
+            }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <!-- Skip link for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <header class="header">
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span class="nav-toggle-icon"></span>
-        </button>
         <div class="header-content">
-            <h1 class="logo">Silver Sycamore</h1>
-            <div class="phase" id="phase">Loading...</div>
+            <span class="logo">Silver Sycamore</span>
+            <span class="phase-badge" id="phase">Loading...</span>
+            <span class="last-updated" id="last-updated"></span>
         </div>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-            <span class="sun">Light</span>
-            <span class="moon">Dark</span>
-        </button>
     </header>
 
-    <!-- Sidebar backdrop for mobile -->
-    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a class="nav-item active" data-page="pipeline">Pipeline</a>
+            <a class="nav-item" data-page="sessions">Sessions</a>
+        </div>
+    </nav>
 
-    <div class="layout">
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar" id="sidebar" aria-label="Main navigation">
-            <ul class="nav-list" role="menubar">
-                <li role="none"><a href="#/dashboard" class="nav-item active" data-page="dashboard" role="menuitem">Dashboard</a></li>
-                <li role="none"><a href="#/sessions" class="nav-item" data-page="sessions" role="menuitem">Sessions</a></li>
-                <li role="none"><a href="#/revenue" class="nav-item" data-page="revenue" role="menuitem">Revenue</a></li>
-                <li role="none"><a href="#/decisions" class="nav-item" data-page="decisions" role="menuitem">Decisions</a></li>
-                <li role="none"><a href="#/context" class="nav-item" data-page="context" role="menuitem">Context</a></li>
-                <li role="none"><a href="#/activity" class="nav-item" data-page="activity" role="menuitem">Activity</a></li>
-            </ul>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="main" id="main-content">
-
-            <!-- ========== DASHBOARD PAGE ========== -->
-            <div class="page active" id="page-dashboard" data-page="dashboard">
-                <h2 class="page-title">Dashboard</h2>
-
-                <!-- Status Grid -->
-                <div class="card">
-                    <div class="status-grid">
-                        <div class="status-column">
-                            <h3 class="subsection-title">Active</h3>
-                            <ul class="simple-list" id="active-list"></ul>
-                        </div>
-                        <div class="status-column">
-                            <h3 class="subsection-title">Blocked</h3>
-                            <ul class="simple-list blocked-list" id="blocked-list"></ul>
-                        </div>
-                        <div class="status-column">
-                            <h3 class="subsection-title">Next</h3>
-                            <ol class="simple-list" id="next-list"></ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Current Session Link -->
-                <div class="card session-card">
-                    <h3 class="subsection-title">Current Session</h3>
-                    <p id="session-link">No active session</p>
-                </div>
-
-                <!-- System Flow Diagram (Collapsible) -->
-                <div class="card system-flow-card">
-                    <div class="accordion">
-                        <button class="accordion-header" aria-expanded="false" tabindex="0">
-                            System Flow — Information Routing
-                        </button>
-                        <div class="accordion-content">
-                            <div class="flow-diagram">
-                        <!-- Input -->
-                        <div class="flow-box flow-intake">
-                            <div class="flow-label">Input</div>
-                            <div class="flow-title">CONVERSATION</div>
-                            <div class="flow-sub">Your fluid intake - stream of consciousness, questions, updates</div>
-                        </div>
-
-                        <div class="flow-arrow">↓</div>
-
-                        <!-- Processing -->
-                        <div class="flow-box flow-sorter">
-                            <div class="flow-label">Processing</div>
-                            <div class="flow-title">CLAUDE SORTS</div>
-                        </div>
-
-                        <div class="flow-arrow">↓</div>
-
-                        <!-- Four outputs -->
-                        <div class="flow-grid-4">
-                            <div class="flow-box flow-log">
-                                <div class="flow-label">History</div>
-                                <div class="flow-title">engagement-log</div>
-                                <div class="flow-sub">Frozen, chronological</div>
-                            </div>
-                            <div class="flow-box flow-parking">
-                                <div class="flow-label">Holding</div>
-                                <div class="flow-title">initiatives</div>
-                                <div class="flow-sub">Asks, commitments, pending</div>
-                            </div>
-                            <div class="flow-box flow-channels">
-                                <div class="flow-label">Domain</div>
-                                <div class="flow-title">channel docs</div>
-                                <div class="flow-sub">catering, weddings, other</div>
-                            </div>
-                            <div class="flow-box flow-tracker">
-                                <div class="flow-label">Outcomes</div>
-                                <div class="flow-title">engagement-tracker</div>
-                                <div class="flow-sub">Decisions, deliverables, wins</div>
-                            </div>
-                        </div>
-
-                        <div class="flow-arrow">↓</div>
-
-                        <!-- Context layer -->
-                        <div class="flow-grid-2">
-                            <div class="flow-box flow-context">
-                                <div class="flow-label">Context</div>
-                                <div class="flow-title">business-map</div>
-                                <div class="flow-sub">Structure, systems, money</div>
-                            </div>
-                            <div class="flow-box flow-context">
-                                <div class="flow-label">Context</div>
-                                <div class="flow-title">people</div>
-                                <div class="flow-sub">Roles, duties, ownership</div>
-                            </div>
-                        </div>
-
-                        <div class="flow-arrow">↓</div>
-
-                                <!-- Command Center -->
-                                <div class="flow-box flow-command">
-                                    <div class="flow-label">Dashboard</div>
-                                    <div class="flow-title">COMMAND CENTER</div>
-                                    <div class="flow-sub">Aggregates from all above - derived, not raw input</div>
-                                </div>
-                            </div><!-- /.flow-diagram -->
-
-                            <!-- Routing Rules (text-based, no color key needed) -->
-                            <div class="flow-rules">
-                                <h4>When you share something, Claude routes it:</h4>
-                                <ul class="rules-list">
-                                    <li><strong>Event or decision made</strong> → engagement-log</li>
-                                    <li><strong>Ask or commitment</strong> → initiatives</li>
-                                    <li><strong>Channel-specific info</strong> → catering / weddings / other</li>
-                                    <li><strong>Outcome or win</strong> → engagement-tracker</li>
-                                    <li><strong>Structure or role info</strong> → business-map / people</li>
-                                </ul>
-                                <p class="rules-note">The dashboard aggregates from all artifacts — it's derived, not direct input.</p>
-                            </div>
-                        </div><!-- /.accordion-content -->
-                    </div><!-- /.accordion -->
-                </div><!-- /.card -->
+    <div class="container">
+        <!-- PIPELINE PAGE -->
+        <div class="page active" id="page-pipeline">
+            <div id="pipeline-content">
+                <p class="empty-state">Loading pipeline...</p>
             </div>
+        </div>
 
-            <!-- ========== SESSIONS PAGE ========== -->
-            <div class="page" id="page-sessions" data-page="sessions">
-                <h2 class="page-title">Sessions</h2>
-
-                <div class="sessions-list card" id="sessions-list">
-                    <p>Loading sessions...</p>
-                </div>
-
-                <div class="session-detail card" id="session-detail" style="display: none;">
-                    <div class="session-header">
-                        <button class="back-button" id="session-back">← Back to sessions</button>
-                        <h3 class="session-title" id="session-title"></h3>
-                        <span class="session-status" id="session-status"></span>
-                    </div>
-                    <nav class="tab-bar session-tabs" role="tablist" aria-label="Session files" id="session-tabs">
-                    </nav>
-                    <div class="tab-content active" id="session-content" role="tabpanel">
-                    </div>
-                </div>
+        <!-- SESSIONS PAGE -->
+        <div class="page" id="page-sessions">
+            <div class="sessions-list" id="sessions-list">
+                <p class="empty-state">Loading sessions...</p>
             </div>
-
-            <!-- ========== REVENUE PAGE ========== -->
-            <div class="page" id="page-revenue" data-page="revenue">
-                <h2 class="page-title">Revenue</h2>
-
-                <nav class="tab-bar" role="tablist" aria-label="Revenue channels">
-                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-catering" data-tab="catering">Catering</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-weddings" data-tab="weddings">Weddings</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-other" data-tab="other">Other</button>
-                </nav>
-
-                <div class="tab-content active" id="tab-catering" role="tabpanel">
-                    <div class="card" id="catering-content"></div>
+            <div class="session-detail" id="session-detail">
+                <a class="back-link" id="back-to-sessions">&larr; Back to sessions</a>
+                <div class="session-detail-header">
+                    <h1 class="session-detail-title" id="session-title"></h1>
+                    <div class="session-detail-meta" id="session-meta"></div>
                 </div>
-                <div class="tab-content" id="tab-weddings" role="tabpanel">
-                    <div class="card" id="weddings-content"></div>
-                </div>
-                <div class="tab-content" id="tab-other" role="tabpanel">
-                    <div class="card" id="other-content"></div>
-                </div>
+                <div class="session-content" id="session-content"></div>
             </div>
-
-            <!-- ========== DECISIONS PAGE ========== -->
-            <div class="page" id="page-decisions" data-page="decisions">
-                <h2 class="page-title">Decisions</h2>
-
-                <nav class="tab-bar" role="tablist" aria-label="Decision categories">
-                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-confirmed" data-tab="confirmed">Confirmed</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-hypotheses" data-tab="hypotheses">Hypotheses</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-deliverables" data-tab="deliverables">Deliverables</button>
-                </nav>
-
-                <div class="tab-content active" id="tab-confirmed" role="tabpanel">
-                    <div class="card" id="decisions-content"></div>
-                </div>
-                <div class="tab-content" id="tab-hypotheses" role="tabpanel">
-                    <div class="card" id="hypotheses-content"></div>
-                </div>
-                <div class="tab-content" id="tab-deliverables" role="tabpanel">
-                    <div class="card" id="deliverables-content"></div>
-                </div>
-            </div>
-
-            <!-- ========== CONTEXT PAGE ========== -->
-            <div class="page" id="page-context" data-page="context">
-                <h2 class="page-title">Context</h2>
-
-                <nav class="tab-bar" role="tablist" aria-label="Context categories">
-                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-business" data-tab="business">Business</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-people" data-tab="people">People</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-documents" data-tab="documents">Documents</button>
-                </nav>
-
-                <div class="tab-content active" id="tab-business" role="tabpanel">
-                    <div class="card" id="business-content"></div>
-                </div>
-                <div class="tab-content" id="tab-people" role="tabpanel">
-                    <div class="card" id="people-content"></div>
-                </div>
-                <div class="tab-content" id="tab-documents" role="tabpanel">
-                    <div class="card" id="documents-content"></div>
-                </div>
-            </div>
-
-            <!-- ========== ACTIVITY PAGE ========== -->
-            <div class="page" id="page-activity" data-page="activity">
-                <h2 class="page-title">Activity</h2>
-
-                <nav class="tab-bar" role="tablist" aria-label="Activity categories">
-                    <button class="tab-item active" role="tab" aria-selected="true" aria-controls="tab-log" data-tab="log">Log</button>
-                    <button class="tab-item" role="tab" aria-selected="false" aria-controls="tab-initiatives" data-tab="initiatives">Initiatives</button>
-                </nav>
-
-                <div class="tab-content active" id="tab-log" role="tabpanel">
-                    <div class="card" id="activity-content"></div>
-                </div>
-                <div class="tab-content" id="tab-initiatives" role="tabpanel">
-                    <div class="card" id="initiatives-content"></div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modal for detail views -->
-    <div class="modal" id="modal">
-        <div class="modal-backdrop" id="modal-backdrop"></div>
-        <div class="modal-content">
-            <button class="modal-close" id="modal-close">&times;</button>
-            <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
-    <script src="app.js?v=5.1"></script>
+    <script>
+        /* ============================================
+           SILVER SYCAMORE - MOVE-CENTRIC DASHBOARD
+           Version: 6.0
+           ============================================ */
+
+        // === CONFIGURATION ===
+        const CONFIG = {
+            pipelinePath: 'content/artifacts/pipeline.md',
+            exchangeLogPath: 'content/artifacts/exchange-log.md',
+            sessionsManifest: 'content/sessions/_manifest.md',
+            sessionsBase: 'content/sessions/',
+            pollInterval: 5000
+        };
+
+        // === STATE ===
+        let state = {
+            pipeline: null,
+            exchangeLog: null,
+            sessions: [],
+            currentSession: null
+        };
+
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', async () => {
+            initNavigation();
+            await loadAllContent();
+            render();
+            startPolling();
+        });
+
+        // === NAVIGATION ===
+        function initNavigation() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = item.dataset.page;
+                    switchPage(pageId);
+                });
+            });
+
+            document.getElementById('back-to-sessions').addEventListener('click', () => {
+                showSessionsList();
+            });
+        }
+
+        function switchPage(pageId) {
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === pageId);
+            });
+
+            // Update pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.toggle('active', page.id === `page-${pageId}`);
+            });
+
+            // Reset session detail view when switching to sessions
+            if (pageId === 'sessions') {
+                showSessionsList();
+            }
+        }
+
+        // === CONTENT LOADING ===
+        async function loadAllContent() {
+            const [pipeline, exchangeLog, sessions] = await Promise.all([
+                fetchContent(CONFIG.pipelinePath),
+                fetchContent(CONFIG.exchangeLogPath),
+                fetchContent(CONFIG.sessionsManifest)
+            ]);
+
+            state.pipeline = pipeline;
+            state.exchangeLog = exchangeLog;
+            state.sessions = parseSessionsManifest(sessions);
+        }
+
+        async function fetchContent(path) {
+            try {
+                const response = await fetch(path + '?t=' + Date.now());
+                if (response.ok) {
+                    return await response.text();
+                }
+            } catch (e) {}
+            return '';
+        }
+
+        function parseSessionsManifest(content) {
+            const sessions = [];
+            if (!content) return sessions;
+
+            const lines = content.split('\n');
+            let inTable = false;
+            let headerParsed = false;
+
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('|') && trimmed.includes('Session')) {
+                    inTable = true;
+                    continue;
+                }
+                if (inTable && trimmed.startsWith('|---')) {
+                    headerParsed = true;
+                    continue;
+                }
+                if (inTable && headerParsed && trimmed.startsWith('|')) {
+                    const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
+                    if (cells.length >= 4) {
+                        sessions.push({
+                            id: cells[0],
+                            date: cells[1],
+                            type: cells[2],
+                            status: cells[3],
+                            notes: cells[4] || ''
+                        });
+                    }
+                }
+            }
+            return sessions.sort((a, b) => b.date.localeCompare(a.date));
+        }
+
+        // === PARSING ===
+        function parsePipeline(content) {
+            if (!content) return { phase: '', stages: {}, exchange: [] };
+
+            const result = {
+                phase: '',
+                stages: {
+                    map: { title: 'Understanding', items: [] },
+                    outcome: { title: 'Building', items: [] },
+                    verify: { title: 'Testing', items: [] }
+                },
+                exchange: [],
+                sessions: []
+            };
+
+            // Extract phase
+            const phaseSection = extractSection(content, 'Phase');
+            if (phaseSection) {
+                const lines = phaseSection.split('\n').filter(l => l.trim() && !l.startsWith('#'));
+                if (lines.length > 0) result.phase = lines[0].trim();
+            }
+
+            // Extract MAP items
+            const mapSection = extractSection(content, 'MAP');
+            result.stages.map.items = parseTable(mapSection);
+
+            // Extract OUTCOME items
+            const outcomeSection = extractSection(content, 'OUTCOME');
+            result.stages.outcome.items = parseTable(outcomeSection);
+
+            // Extract VERIFY items
+            const verifySection = extractSection(content, 'VERIFY');
+            result.stages.verify.items = parseTable(verifySection);
+
+            // Extract EXCHANGE items
+            const exchangeSection = extractSection(content, 'EXCHANGE');
+            result.exchange = parseTable(exchangeSection);
+
+            // Extract Sessions
+            const sessionsSection = extractSection(content, 'Sessions');
+            result.sessions = parseTable(sessionsSection);
+
+            return result;
+        }
+
+        function extractSection(content, sectionName) {
+            const lines = content.split('\n');
+            let inSection = false;
+            let sectionLines = [];
+            const pattern = new RegExp(`^##\\s*${sectionName}`, 'i');
+
+            for (const line of lines) {
+                if (pattern.test(line.trim())) {
+                    inSection = true;
+                    continue;
+                }
+                if (inSection) {
+                    if (/^##\s/.test(line) || /^---\s*$/.test(line)) {
+                        break;
+                    }
+                    sectionLines.push(line);
+                }
+            }
+            return sectionLines.join('\n').trim();
+        }
+
+        function parseTable(section) {
+            const items = [];
+            if (!section) return items;
+
+            const lines = section.split('\n');
+            let headers = [];
+            let headerParsed = false;
+
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('|') && !headerParsed) {
+                    if (trimmed.includes('---')) {
+                        headerParsed = true;
+                        continue;
+                    }
+                    headers = trimmed.split('|').map(c => c.trim().toLowerCase()).filter(c => c);
+                    continue;
+                }
+                if (headerParsed && trimmed.startsWith('|')) {
+                    const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
+                    if (cells.length > 0 && cells[0] !== '—') {
+                        const item = {};
+                        headers.forEach((h, i) => {
+                            item[h] = cells[i] || '';
+                        });
+                        items.push(item);
+                    }
+                }
+            }
+            return items;
+        }
+
+        // === RENDERING ===
+        function render() {
+            const data = parsePipeline(state.pipeline);
+
+            // Update phase
+            document.getElementById('phase').textContent = data.phase || 'Loading...';
+            document.getElementById('last-updated').textContent = `Updated ${new Date().toLocaleTimeString()}`;
+
+            // Render pipeline
+            renderPipeline(data);
+
+            // Render sessions
+            renderSessions();
+        }
+
+        function renderPipeline(data) {
+            const container = document.getElementById('pipeline-content');
+            let html = '';
+
+            // Render each stage
+            ['map', 'outcome', 'verify'].forEach(stageKey => {
+                const stage = data.stages[stageKey];
+                const items = stage.items;
+
+                html += `
+                    <div class="stage">
+                        <div class="stage-header">
+                            <span class="stage-label ${stageKey}">${stageKey.toUpperCase()}</span>
+                            <span class="stage-title">${escapeHtml(stage.title)}</span>
+                            <span class="stage-count">${items.length} item${items.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        ${renderStageTable(items, stageKey)}
+                    </div>
+                `;
+            });
+
+            // Render EXCHANGE section (collapsed by default)
+            html += `
+                <div class="exchange-section" id="exchange-section">
+                    <div class="exchange-header" onclick="toggleExchange()">
+                        <span class="exchange-toggle">&#9654;</span>
+                        <span class="exchange-title">EXCHANGE</span>
+                        <span class="exchange-subtitle">${data.exchange.length} value delivered</span>
+                    </div>
+                    <div class="exchange-content">
+                        ${renderExchangeTable(data.exchange)}
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function renderStageTable(items, stageKey) {
+            if (items.length === 0) {
+                return '<div class="empty-state">No items in this stage</div>';
+            }
+
+            // Determine columns based on stage
+            const columns = {
+                map: ['item', 'type', 'status', 'next action'],
+                outcome: ['item', 'type', 'status', "what's happening"],
+                verify: ['item', 'type', 'testing with', 'feedback']
+            };
+
+            const cols = columns[stageKey] || Object.keys(items[0]);
+
+            let html = '<table class="items-table"><thead><tr>';
+            cols.forEach(col => {
+                html += `<th>${escapeHtml(col)}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            items.forEach(item => {
+                html += '<tr>';
+                cols.forEach((col, idx) => {
+                    const value = item[col] || '';
+                    if (idx === 0) {
+                        html += `<td><span class="item-name">${escapeHtml(value)}</span></td>`;
+                    } else if (col === 'type') {
+                        html += `<td><span class="item-type">${escapeHtml(value)}</span></td>`;
+                    } else {
+                        html += `<td class="item-status">${escapeHtml(value)}</td>`;
+                    }
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            return html;
+        }
+
+        function renderExchangeTable(items) {
+            if (items.length === 0) {
+                return '<div class="empty-state">No value delivered yet</div>';
+            }
+
+            let html = '<table class="items-table"><thead><tr>';
+            html += '<th>Date</th><th>What</th><th>Impact</th>';
+            html += '</tr></thead><tbody>';
+
+            items.forEach(item => {
+                html += `<tr>
+                    <td>${escapeHtml(item.date || '')}</td>
+                    <td><span class="item-name">${escapeHtml(item.what || '')}</span></td>
+                    <td class="item-status">${escapeHtml(item.impact || '')}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            return html;
+        }
+
+        function renderSessions() {
+            const container = document.getElementById('sessions-list');
+
+            if (state.sessions.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>No sessions recorded</div>';
+                return;
+            }
+
+            let html = '';
+            state.sessions.forEach(session => {
+                html += `
+                    <div class="session-item" data-session-id="${escapeHtml(session.id)}">
+                        <span class="session-date">${escapeHtml(session.date)}</span>
+                        <span class="session-type">${escapeHtml(session.type)}</span>
+                        <span class="session-status ${session.status}">${escapeHtml(session.status)}</span>
+                        <span class="session-summary">${escapeHtml(session.notes || '')}</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // Bind click handlers
+            container.querySelectorAll('.session-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    showSessionDetail(item.dataset.sessionId);
+                });
+            });
+        }
+
+        function showSessionsList() {
+            document.getElementById('sessions-list').style.display = 'block';
+            document.getElementById('session-detail').classList.remove('active');
+            state.currentSession = null;
+        }
+
+        async function showSessionDetail(sessionId) {
+            const session = state.sessions.find(s => s.id === sessionId);
+            if (!session) return;
+
+            state.currentSession = sessionId;
+
+            // Hide list, show detail
+            document.getElementById('sessions-list').style.display = 'none';
+            document.getElementById('session-detail').classList.add('active');
+
+            // Update header
+            document.getElementById('session-title').textContent = `${session.date} (${session.type})`;
+            document.getElementById('session-meta').innerHTML = `
+                <span class="session-status ${session.status}">${session.status}</span>
+            `;
+
+            // Load session content
+            const sessionPath = CONFIG.sessionsBase + sessionId + '/session.md';
+            const content = await fetchContent(sessionPath);
+
+            if (content) {
+                document.getElementById('session-content').innerHTML = marked.parse(content);
+            } else {
+                document.getElementById('session-content').innerHTML = '<div class="empty-state">Session content not available</div>';
+            }
+        }
+
+        // === UTILITIES ===
+        function toggleExchange() {
+            document.getElementById('exchange-section').classList.toggle('open');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // === POLLING ===
+        async function startPolling() {
+            setInterval(async () => {
+                await loadAllContent();
+                render();
+            }, CONFIG.pollInterval);
+        }
+    </script>
 </body>
 </html>
