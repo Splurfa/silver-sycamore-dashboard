@@ -1,6 +1,6 @@
 # Pipeline
 
-*Active work organized by MOVE stage. Items progress: MAP → OUTCOME → VERIFY → EXCHANGE*
+*Initiatives organized by category. Each initiative has MOVE primitives: MAP (understanding) | OUTCOME (building) | VERIFY (testing) | EXCHANGE (value).*
 
 **Engagement:** Silver Sycamore Revenue Consulting
 **Started:** 2026-01-02
@@ -13,43 +13,44 @@ Active execution — marketing handoff + Square catering menu are priorities
 
 ---
 
-## MAP (Understanding)
+## Marketing & Digital
 
-*Problem understood, requirements being defined*
-
-| Item | Type | Status | Next Action |
-|------|------|--------|-------------|
-| Website revamp | initiative | Needs assessment pending | Discovery meeting |
-| Marketing automation | initiative | Requirements unclear | Scope with stakeholder |
+| Initiative | MAP | OUTCOME | VERIFY | EXCHANGE | Status |
+|------------|-----|---------|--------|----------|--------|
+| [Marketing Handoff](initiatives/marketing-handoff/) | Account audit, personas | Documentation, new ad account | Independent posting | Continuity | In Progress |
+| Website Revamp | Current state assessment | TBD | TBD | TBD | Discovery |
 
 ---
 
-## OUTCOME (Building)
+## Products & Revenue
 
-*Solution being delivered*
-
-| Item | Type | Status | What's Happening |
-|------|------|--------|------------------|
-| Square catering menu | initiative | Ready to build | Build site (credentials received) |
-| Marketing director handoff | initiative | Meeting today | Aubrey knowledge transfer |
+| Initiative | MAP | OUTCOME | VERIFY | EXCHANGE | Status |
+|------------|-----|---------|--------|----------|--------|
+| [Square Catering](initiatives/square-catering/) | Menu structure, Square API | Live ordering site | Orders flow correctly | Revenue channel | Building |
 
 ---
 
-## VERIFY (Testing)
+## Operations & Tools
 
-*Client testing, feedback being incorporated*
-
-| Item | Type | Testing With | Feedback |
-|------|------|--------------|----------|
-| Pine Street Cafe Recipe App | deliverable | Kitchen staff | Piloting — 278 recipes deployed |
-| Engagement Dashboard | deliverable | Stakeholders | Not yet tested |
-| Digitization & cataloging | initiative | Operations | Partial — recipe app piloting |
+| Initiative | MAP | OUTCOME | VERIFY | EXCHANGE | Status |
+|------------|-----|---------|--------|----------|--------|
+| [Recipe App](initiatives/recipe-app/) | Kitchen workflow needs | 278 searchable recipes | Staff adoption | Time savings | Piloting |
+| Engagement Dashboard | Consulting workflow needs | MOVE-based tracking | Usability | Clarity | Building |
 
 ---
 
-## EXCHANGE (Value Delivered)
+## Discovery
 
-*Recent value delivered to client. Full history in [exchange-log.md](exchange-log.md)*
+| Initiative | MAP | OUTCOME | VERIFY | EXCHANGE | Status |
+|------------|-----|---------|--------|----------|--------|
+| Excel Cortex | Business data scattered | 200+ entities structured | Data accuracy | Single source | Done |
+| Document Catalog | 128 source documents | Organized catalog | Findability | Reference access | Done |
+
+---
+
+## Value Delivered
+
+*Recent value delivered. Full history in [exchange-log.md](exchange-log.md)*
 
 | Date | What | Impact |
 |------|------|--------|
@@ -58,7 +59,7 @@ Active execution — marketing handoff + Square catering menu are priorities
 | 2026-01-05 | Excel cortex | 200+ entities structured |
 | 2026-01-05 | Document catalog | 128 source documents organized |
 
-**Completed initiatives:** Wedding coordinator — HIRED (position filled)
+**Completed:** Wedding coordinator — HIRED (position filled)
 
 ---
 

@@ -3,934 +3,1147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silver Sycamore</title>
+    <title>Silver Sycamore Pipeline</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* === RESET & VARIABLES === */
-        *, *::before, *::after {
+        :root {
+            --bg: #FFFFFF;
+            --border: #E1E4E8;
+            --text-primary: #24292E;
+            --text-secondary: #586069;
+            --text-muted: #6A737D;
+            --hover: #F6F8FA;
+            --link: #0366D6;
+        }
+
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        :root {
-            --bg: #FFFFFF;
-            --bg-secondary: #FAFBFC;
-            --border: #E1E4E8;
-            --border-light: #EAECEF;
-            --text-primary: #24292E;
-            --text-secondary: #586069;
-            --text-muted: #959DA5;
-            --accent: #0366D6;
-            --accent-bg: #F1F8FF;
-            --success: #28A745;
-            --warning: #F9A825;
-            --stage-map: #E3F2FD;
-            --stage-outcome: #FFF3E0;
-            --stage-verify: #E8F5E9;
-            --stage-exchange: #F3E5F5;
-            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            --radius: 6px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-
-        html {
-            font-size: 14px;
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: var(--font);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             background: var(--bg);
             color: var(--text-primary);
             line-height: 1.5;
-            min-height: 100vh;
         }
 
-        /* === LAYOUT === */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 24px;
         }
 
-        /* === HEADER === */
-        .header {
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
-            background: var(--bg);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .phase-badge {
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding: 4px 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-        }
-
-        .last-updated {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* === NAVIGATION === */
+        /* Navigation */
         .nav {
             border-bottom: 1px solid var(--border);
-            background: var(--bg);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
         }
 
         .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            gap: 0;
-            padding: 0 24px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: auto;
         }
 
         .nav-item {
-            padding: 12px 16px;
-            font-size: 13px;
-            font-weight: 500;
+            font-size: 14px;
             color: var(--text-secondary);
             text-decoration: none;
+            padding: 8px 0;
             border-bottom: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.15s ease;
         }
 
         .nav-item:hover {
             color: var(--text-primary);
-            background: var(--bg-secondary);
         }
 
         .nav-item.active {
             color: var(--text-primary);
-            border-bottom-color: var(--accent);
+            border-bottom-color: var(--link);
         }
 
-        /* === PAGE VIEWS === */
-        .page {
-            display: none;
+        /* Back button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 16px;
+            cursor: pointer;
         }
 
-        .page.active {
-            display: block;
+        .back-btn:hover {
+            color: var(--link);
         }
 
-        /* === PIPELINE STAGES === */
-        .stage {
+        /* Phase banner */
+        .phase-banner {
+            background: var(--hover);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .phase-banner strong {
+            color: var(--text-primary);
+        }
+
+        /* Category sections */
+        .category {
             margin-bottom: 32px;
         }
 
-        .stage-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .stage-label {
-            font-size: 11px;
+        .category-header {
+            font-size: 16px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 4px 10px;
-            border-radius: 4px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .stage-label.map { background: var(--stage-map); color: #1565C0; }
-        .stage-label.outcome { background: var(--stage-outcome); color: #E65100; }
-        .stage-label.verify { background: var(--stage-verify); color: #2E7D32; }
-        .stage-label.exchange { background: var(--stage-exchange); color: #7B1FA2; }
-
-        .stage-title {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        .stage-count {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-left: auto;
-        }
-
-        /* === ITEMS TABLE === */
-        .items-table {
+        /* Table styles */
+        .matrix-table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        .items-table th {
-            text-align: left;
-            font-size: 11px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            color: var(--text-muted);
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-secondary);
-        }
-
-        .items-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border-light);
             font-size: 13px;
+        }
+
+        .matrix-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: var(--hover);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .matrix-table td {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
             vertical-align: top;
         }
 
-        .items-table tr:hover {
-            background: var(--bg-secondary);
+        .matrix-table tr:hover td {
+            background: var(--hover);
         }
 
-        .items-table tr:last-child td {
+        .matrix-table .initiative-name {
+            font-weight: 500;
+            color: var(--link);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .matrix-table .initiative-name:hover {
+            text-decoration: underline;
+        }
+
+        .matrix-table .cell-content {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .status-badge.in-progress { background: #FFF3CD; color: #856404; }
+        .status-badge.building { background: #D1ECF1; color: #0C5460; }
+        .status-badge.piloting { background: #D4EDDA; color: #155724; }
+        .status-badge.done { background: #C3E6CB; color: #155724; }
+        .status-badge.discovery { background: #E2D5F1; color: #5A3D7A; }
+        .status-badge.pending { background: #F8D7DA; color: #721C24; }
+        .status-badge.active { background: #D4EDDA; color: #155724; }
+        .status-badge.closed { background: #E9ECEF; color: #495057; }
+
+        /* Detail view */
+        .detail-header {
+            margin-bottom: 24px;
+        }
+
+        .detail-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .detail-meta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .detail-meta .category-badge {
+            background: var(--hover);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* MOVE summary card */
+        .move-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .move-card-header {
+            background: var(--hover);
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .move-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            .move-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .move-cell {
+            padding: 16px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .move-cell:nth-child(4n) {
+            border-right: none;
+        }
+
+        .move-cell:nth-last-child(-n+4) {
             border-bottom: none;
         }
 
-        .item-name {
-            font-weight: 500;
+        @media (max-width: 768px) {
+            .move-cell:nth-child(2n) {
+                border-right: none;
+            }
+            .move-cell:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+        }
+
+        .move-cell-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .move-cell-content {
+            font-size: 13px;
             color: var(--text-primary);
         }
 
-        .item-type {
-            display: inline-block;
-            font-size: 11px;
-            padding: 2px 6px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            color: var(--text-secondary);
+        /* Sub-projects table */
+        .subprojects {
+            margin-bottom: 24px;
         }
 
-        .item-status {
-            color: var(--text-secondary);
-        }
-
-        .item-action {
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        /* === EXCHANGE SECTION === */
-        .exchange-section {
-            margin-top: 48px;
-            padding-top: 24px;
-            border-top: 2px solid var(--border);
-        }
-
-        .exchange-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            padding: 12px 0;
-            user-select: none;
-        }
-
-        .exchange-header:hover .exchange-title {
-            color: var(--accent);
-        }
-
-        .exchange-toggle {
-            font-size: 12px;
-            color: var(--text-muted);
-            transition: transform 0.2s ease;
-        }
-
-        .exchange-section.open .exchange-toggle {
-            transform: rotate(90deg);
-        }
-
-        .exchange-title {
+        .subprojects-header {
             font-size: 14px;
             font-weight: 600;
+            margin-bottom: 12px;
             color: var(--text-primary);
-            transition: color 0.15s ease;
         }
 
-        .exchange-subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-left: auto;
+        /* Notes section */
+        .notes-section {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
         }
 
-        .exchange-content {
-            display: none;
-            padding-top: 16px;
+        .notes-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
 
-        .exchange-section.open .exchange-content {
-            display: block;
+        .notes-content {
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        /* === SESSIONS === */
+        .notes-content h1, .notes-content h2, .notes-content h3, .notes-content h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .notes-content h3 { font-size: 15px; }
+        .notes-content h4 { font-size: 14px; color: var(--text-secondary); }
+
+        .notes-content p {
+            margin-bottom: 12px;
+        }
+
+        .notes-content ul, .notes-content ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .notes-content li {
+            margin-bottom: 4px;
+        }
+
+        .notes-content strong {
+            font-weight: 600;
+        }
+
+        .notes-content a {
+            color: var(--link);
+        }
+
+        /* Sessions list */
         .sessions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .session-item {
+        .session-row {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 16px;
-            border-bottom: 1px solid var(--border-light);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
-            transition: background 0.15s ease;
         }
 
-        .session-item:hover {
-            background: var(--bg-secondary);
-        }
-
-        .session-item:last-child {
+        .session-row:last-child {
             border-bottom: none;
+        }
+
+        .session-row:hover {
+            background: var(--hover);
         }
 
         .session-date {
             font-weight: 500;
-            color: var(--text-primary);
-            min-width: 100px;
-        }
-
-        .session-type {
-            font-size: 12px;
-            color: var(--text-muted);
-            padding: 2px 8px;
-            background: var(--bg-secondary);
-            border-radius: 3px;
+            color: var(--link);
+            width: 120px;
         }
 
         .session-status {
-            font-size: 11px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            width: 80px;
         }
-
-        .session-status.active { color: var(--success); }
-        .session-status.closed { color: var(--text-muted); }
 
         .session-summary {
             flex: 1;
             color: var(--text-secondary);
             font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        /* === SESSION DETAIL === */
-        .session-detail {
-            display: none;
-        }
-
-        .session-detail.active {
-            display: block;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 8px 0;
-            margin-bottom: 16px;
-            cursor: pointer;
-        }
-
-        .back-link:hover {
-            color: var(--accent);
-        }
-
-        .session-detail-header {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .session-detail-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .session-detail-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
+        /* Session detail */
         .session-content {
             font-size: 14px;
             line-height: 1.6;
         }
 
-        .session-content h2 {
-            font-size: 15px;
-            font-weight: 600;
-            margin: 24px 0 12px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .session-content h2:first-child {
-            margin-top: 0;
-        }
-
-        .session-content p {
-            margin-bottom: 12px;
-            color: var(--text-secondary);
-        }
-
-        .session-content ul, .session-content ol {
-            margin-bottom: 12px;
-            padding-left: 24px;
-        }
-
-        .session-content li {
-            margin-bottom: 6px;
-        }
+        .session-content h1 { font-size: 20px; margin-bottom: 16px; }
+        .session-content h2 { font-size: 16px; margin-top: 24px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .session-content h3 { font-size: 14px; margin-top: 16px; margin-bottom: 8px; }
 
         .session-content table {
             width: 100%;
             border-collapse: collapse;
-            margin: 16px 0;
-        }
-
-        .session-content th, .session-content td {
-            text-align: left;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
+            margin: 12px 0;
             font-size: 13px;
         }
 
-        .session-content th {
-            background: var(--bg-secondary);
-            font-weight: 500;
+        .session-content th, .session-content td {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            text-align: left;
         }
 
-        /* === EMPTY STATES === */
+        .session-content th {
+            background: var(--hover);
+            font-weight: 600;
+        }
+
+        .session-content ul, .session-content ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .session-content a {
+            color: var(--link);
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Empty state */
         .empty-state {
             text-align: center;
-            padding: 48px 24px;
+            padding: 40px;
             color: var(--text-muted);
+            font-size: 14px;
         }
 
-        .empty-state-icon {
-            font-size: 32px;
+        /* Value delivered section */
+        .value-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .value-header {
+            font-size: 14px;
+            font-weight: 600;
             margin-bottom: 12px;
-            opacity: 0.5;
+            color: var(--text-secondary);
         }
 
-        /* === RESPONSIVE === */
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-
-            .header-content {
-                flex-wrap: wrap;
-            }
-
-            .nav-inner {
-                overflow-x: auto;
-                padding: 0 16px;
-            }
-
-            .items-table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .session-item {
-                flex-wrap: wrap;
-            }
-
-            .session-summary {
-                width: 100%;
-                margin-top: 8px;
-            }
+        /* Meetings section */
+        .meetings-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
         }
+
+        .meetings-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .meeting-item {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .meeting-item:hover {
+            background: var(--hover);
+        }
+
+        .meeting-title {
+            font-weight: 500;
+            color: var(--link);
+        }
+
+        /* Hide views */
+        .view { display: none; }
+        .view.active { display: block; }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <span class="logo">Silver Sycamore</span>
-            <span class="phase-badge" id="phase">Loading...</span>
-            <span class="last-updated" id="last-updated"></span>
-        </div>
-    </header>
-
-    <nav class="nav">
-        <div class="nav-inner">
-            <a class="nav-item active" data-page="pipeline">Pipeline</a>
-            <a class="nav-item" data-page="sessions">Sessions</a>
-        </div>
-    </nav>
-
     <div class="container">
-        <!-- PIPELINE PAGE -->
-        <div class="page active" id="page-pipeline">
-            <div id="pipeline-content">
-                <p class="empty-state">Loading pipeline...</p>
+        <nav class="nav">
+            <div class="nav-inner">
+                <div class="nav-title">Silver Sycamore</div>
+                <a class="nav-item active" data-page="pipeline" onclick="showPipeline()">Pipeline</a>
+                <a class="nav-item" data-page="sessions" onclick="showSessions()">Sessions</a>
             </div>
-        </div>
+        </nav>
 
-        <!-- SESSIONS PAGE -->
-        <div class="page" id="page-sessions">
-            <div class="sessions-list" id="sessions-list">
-                <p class="empty-state">Loading sessions...</p>
-            </div>
-            <div class="session-detail" id="session-detail">
-                <a class="back-link" id="back-to-sessions">&larr; Back to sessions</a>
-                <div class="session-detail-header">
-                    <h1 class="session-detail-title" id="session-title"></h1>
-                    <div class="session-detail-meta" id="session-meta"></div>
-                </div>
-                <div class="session-content" id="session-content"></div>
-            </div>
-        </div>
+        <main id="content">
+            <div class="loading">Loading...</div>
+        </main>
     </div>
 
     <script>
-        /* ============================================
-           SILVER SYCAMORE - MOVE-CENTRIC DASHBOARD
-           Version: 6.0
-           ============================================ */
+        // State
+        let pipelineData = null;
+        let currentView = 'pipeline';
 
-        // === CONFIGURATION ===
-        const CONFIG = {
-            pipelinePath: 'content/artifacts/pipeline.md',
-            exchangeLogPath: 'content/artifacts/exchange-log.md',
-            sessionsManifest: 'content/sessions/_manifest.md',
-            sessionsBase: 'content/sessions/',
-            pollInterval: 5000
-        };
+        // Content base URL
+        const CONTENT_BASE = './content';
 
-        // === STATE ===
-        let state = {
-            pipeline: null,
-            exchangeLog: null,
-            sessions: [],
-            currentSession: null
-        };
-
-        // === INITIALIZATION ===
+        // Initialize
         document.addEventListener('DOMContentLoaded', async () => {
-            initNavigation();
-            await loadAllContent();
-            render();
-            startPolling();
+            await loadPipeline();
+            showPipeline();
         });
 
-        // === NAVIGATION ===
-        function initNavigation() {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const pageId = item.dataset.page;
-                    switchPage(pageId);
-                });
-            });
-
-            document.getElementById('back-to-sessions').addEventListener('click', () => {
-                showSessionsList();
-            });
-        }
-
-        function switchPage(pageId) {
-            // Update nav
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.toggle('active', item.dataset.page === pageId);
-            });
-
-            // Update pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.toggle('active', page.id === `page-${pageId}`);
-            });
-
-            // Reset session detail view when switching to sessions
-            if (pageId === 'sessions') {
-                showSessionsList();
+        // Load and parse pipeline.md
+        async function loadPipeline() {
+            try {
+                const response = await fetch(`${CONTENT_BASE}/artifacts/pipeline.md`);
+                if (!response.ok) throw new Error('Pipeline not found');
+                const text = await response.text();
+                pipelineData = parsePipeline(text);
+            } catch (error) {
+                console.error('Error loading pipeline:', error);
+                pipelineData = { phase: 'Unable to load', categories: [], sessions: [], valueDelivered: [] };
             }
         }
 
-        // === CONTENT LOADING ===
-        async function loadAllContent() {
-            const [pipeline, exchangeLog, sessions] = await Promise.all([
-                fetchContent(CONFIG.pipelinePath),
-                fetchContent(CONFIG.exchangeLogPath),
-                fetchContent(CONFIG.sessionsManifest)
-            ]);
+        // Parse pipeline markdown into structured data
+        function parsePipeline(text) {
+            const lines = text.split('\n');
+            const data = {
+                phase: '',
+                categories: [],
+                sessions: [],
+                valueDelivered: []
+            };
 
-            state.pipeline = pipeline;
-            state.exchangeLog = exchangeLog;
-            state.sessions = parseSessionsManifest(sessions);
+            let currentSection = null;
+            let currentCategory = null;
+            let inTable = false;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+
+                // Phase
+                if (line.startsWith('## Phase')) {
+                    currentSection = 'phase';
+                    continue;
+                }
+
+                // Category headers
+                if (line.startsWith('## Marketing & Digital') ||
+                    line.startsWith('## Products & Revenue') ||
+                    line.startsWith('## Operations & Tools') ||
+                    line.startsWith('## Discovery')) {
+                    currentSection = 'category';
+                    currentCategory = { name: line.replace('## ', ''), initiatives: [] };
+                    data.categories.push(currentCategory);
+                    inTable = false;
+                    continue;
+                }
+
+                // Value Delivered
+                if (line.startsWith('## Value Delivered')) {
+                    currentSection = 'value';
+                    currentCategory = null;
+                    inTable = false;
+                    continue;
+                }
+
+                // Sessions
+                if (line.startsWith('## Sessions')) {
+                    currentSection = 'sessions';
+                    currentCategory = null;
+                    inTable = false;
+                    continue;
+                }
+
+                // Skip other sections
+                if (line.startsWith('## ')) {
+                    currentSection = 'other';
+                    currentCategory = null;
+                    inTable = false;
+                    continue;
+                }
+
+                // Parse phase content
+                if (currentSection === 'phase' && line && !line.startsWith('---')) {
+                    data.phase = line;
+                    currentSection = null;
+                }
+
+                // Parse tables
+                if (line.startsWith('|')) {
+                    const cells = line.split('|').map(c => c.trim()).filter(c => c);
+
+                    // Header row
+                    if (!inTable) {
+                        inTable = true;
+                        continue;
+                    }
+
+                    // Separator row
+                    if (cells.every(c => c.match(/^[-:]+$/))) {
+                        continue;
+                    }
+
+                    // Data row for categories
+                    if (currentSection === 'category' && currentCategory && cells.length >= 5) {
+                        const initiative = parseInitiativeRow(cells);
+                        currentCategory.initiatives.push(initiative);
+                    }
+
+                    // Data row for sessions
+                    if (currentSection === 'sessions' && cells.length >= 3) {
+                        const session = parseSessionRow(cells);
+                        data.sessions.push(session);
+                    }
+
+                    // Data row for value
+                    if (currentSection === 'value' && cells.length >= 3) {
+                        data.valueDelivered.push({
+                            date: cells[0],
+                            what: cells[1],
+                            impact: cells[2]
+                        });
+                    }
+                } else {
+                    inTable = false;
+                }
+            }
+
+            return data;
         }
 
-        async function fetchContent(path) {
-            try {
-                const response = await fetch(path + '?t=' + Date.now());
-                if (response.ok) {
-                    return await response.text();
-                }
-            } catch (e) {}
+        // Parse initiative row
+        function parseInitiativeRow(cells) {
+            const linkMatch = cells[0].match(/\[([^\]]+)\]\(([^)]+)\)/);
+            return {
+                name: linkMatch ? linkMatch[1] : cells[0],
+                path: linkMatch ? linkMatch[2] : null,
+                map: cells[1] || 'TBD',
+                outcome: cells[2] || 'TBD',
+                verify: cells[3] || 'TBD',
+                exchange: cells[4] || 'TBD',
+                status: cells[5] || 'Unknown'
+            };
+        }
+
+        // Parse session row
+        function parseSessionRow(cells) {
+            const linkMatch = cells[0].match(/\[([^\]]+)\]\(([^)]+)\)/);
+            return {
+                date: linkMatch ? linkMatch[1] : cells[0],
+                path: linkMatch ? linkMatch[2] : null,
+                status: cells[1] || '',
+                summary: cells[2] || ''
+            };
+        }
+
+        // Status badge class
+        function getStatusClass(status) {
+            const s = status.toLowerCase().replace(/\s+/g, '-');
+            if (s.includes('progress')) return 'in-progress';
+            if (s.includes('building')) return 'building';
+            if (s.includes('piloting')) return 'piloting';
+            if (s.includes('done')) return 'done';
+            if (s.includes('discovery')) return 'discovery';
+            if (s.includes('pending')) return 'pending';
+            if (s.includes('active')) return 'active';
+            if (s.includes('closed')) return 'closed';
             return '';
         }
 
-        function parseSessionsManifest(content) {
-            const sessions = [];
-            if (!content) return sessions;
+        // Show pipeline view
+        function showPipeline() {
+            currentView = 'pipeline';
+            updateNav('pipeline');
 
-            const lines = content.split('\n');
-            let inTable = false;
-            let headerParsed = false;
-
-            for (const line of lines) {
-                const trimmed = line.trim();
-                if (trimmed.startsWith('|') && trimmed.includes('Session')) {
-                    inTable = true;
-                    continue;
-                }
-                if (inTable && trimmed.startsWith('|---')) {
-                    headerParsed = true;
-                    continue;
-                }
-                if (inTable && headerParsed && trimmed.startsWith('|')) {
-                    const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
-                    if (cells.length >= 4) {
-                        sessions.push({
-                            id: cells[0],
-                            date: cells[1],
-                            type: cells[2],
-                            status: cells[3],
-                            notes: cells[4] || ''
-                        });
-                    }
-                }
-            }
-            return sessions.sort((a, b) => b.date.localeCompare(a.date));
-        }
-
-        // === PARSING ===
-        function parsePipeline(content) {
-            if (!content) return { phase: '', stages: {}, exchange: [] };
-
-            const result = {
-                phase: '',
-                stages: {
-                    map: { title: 'Understanding', items: [] },
-                    outcome: { title: 'Building', items: [] },
-                    verify: { title: 'Testing', items: [] }
-                },
-                exchange: [],
-                sessions: []
-            };
-
-            // Extract phase
-            const phaseSection = extractSection(content, 'Phase');
-            if (phaseSection) {
-                const lines = phaseSection.split('\n').filter(l => l.trim() && !l.startsWith('#'));
-                if (lines.length > 0) result.phase = lines[0].trim();
+            if (!pipelineData) {
+                document.getElementById('content').innerHTML = '<div class="loading">Loading...</div>';
+                return;
             }
 
-            // Extract MAP items
-            const mapSection = extractSection(content, 'MAP');
-            result.stages.map.items = parseTable(mapSection);
+            let html = `
+                <div class="phase-banner">
+                    <strong>Phase:</strong> ${escapeHtml(pipelineData.phase)}
+                </div>
+            `;
 
-            // Extract OUTCOME items
-            const outcomeSection = extractSection(content, 'OUTCOME');
-            result.stages.outcome.items = parseTable(outcomeSection);
+            // Categories
+            for (const category of pipelineData.categories) {
+                html += `
+                    <div class="category">
+                        <div class="category-header">${escapeHtml(category.name)}</div>
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 180px;">Initiative</th>
+                                    <th>MAP</th>
+                                    <th>OUTCOME</th>
+                                    <th>VERIFY</th>
+                                    <th>EXCHANGE</th>
+                                    <th style="width: 100px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
 
-            // Extract VERIFY items
-            const verifySection = extractSection(content, 'VERIFY');
-            result.stages.verify.items = parseTable(verifySection);
-
-            // Extract EXCHANGE items
-            const exchangeSection = extractSection(content, 'EXCHANGE');
-            result.exchange = parseTable(exchangeSection);
-
-            // Extract Sessions
-            const sessionsSection = extractSection(content, 'Sessions');
-            result.sessions = parseTable(sessionsSection);
-
-            return result;
-        }
-
-        function extractSection(content, sectionName) {
-            const lines = content.split('\n');
-            let inSection = false;
-            let sectionLines = [];
-            const pattern = new RegExp(`^##\\s*${sectionName}`, 'i');
-
-            for (const line of lines) {
-                if (pattern.test(line.trim())) {
-                    inSection = true;
-                    continue;
+                for (const init of category.initiatives) {
+                    const onclick = init.path ? `onclick="showInitiative('${escapeHtml(init.path)}')"` : '';
+                    html += `
+                        <tr>
+                            <td class="initiative-name" ${onclick}>${escapeHtml(init.name)}</td>
+                            <td class="cell-content">${escapeHtml(init.map)}</td>
+                            <td class="cell-content">${escapeHtml(init.outcome)}</td>
+                            <td class="cell-content">${escapeHtml(init.verify)}</td>
+                            <td class="cell-content">${escapeHtml(init.exchange)}</td>
+                            <td><span class="status-badge ${getStatusClass(init.status)}">${escapeHtml(init.status)}</span></td>
+                        </tr>
+                    `;
                 }
-                if (inSection) {
-                    if (/^##\s/.test(line) || /^---\s*$/.test(line)) {
-                        break;
-                    }
-                    sectionLines.push(line);
-                }
-            }
-            return sectionLines.join('\n').trim();
-        }
-
-        function parseTable(section) {
-            const items = [];
-            if (!section) return items;
-
-            const lines = section.split('\n');
-            let headers = [];
-            let headerParsed = false;
-
-            for (const line of lines) {
-                const trimmed = line.trim();
-                if (trimmed.startsWith('|') && !headerParsed) {
-                    if (trimmed.includes('---')) {
-                        headerParsed = true;
-                        continue;
-                    }
-                    headers = trimmed.split('|').map(c => c.trim().toLowerCase()).filter(c => c);
-                    continue;
-                }
-                if (headerParsed && trimmed.startsWith('|')) {
-                    const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
-                    if (cells.length > 0 && cells[0] !== '—') {
-                        const item = {};
-                        headers.forEach((h, i) => {
-                            item[h] = cells[i] || '';
-                        });
-                        items.push(item);
-                    }
-                }
-            }
-            return items;
-        }
-
-        // === RENDERING ===
-        function render() {
-            const data = parsePipeline(state.pipeline);
-
-            // Update phase
-            document.getElementById('phase').textContent = data.phase || 'Loading...';
-            document.getElementById('last-updated').textContent = `Updated ${new Date().toLocaleTimeString()}`;
-
-            // Render pipeline
-            renderPipeline(data);
-
-            // Render sessions
-            renderSessions();
-        }
-
-        function renderPipeline(data) {
-            const container = document.getElementById('pipeline-content');
-            let html = '';
-
-            // Render each stage
-            ['map', 'outcome', 'verify'].forEach(stageKey => {
-                const stage = data.stages[stageKey];
-                const items = stage.items;
 
                 html += `
-                    <div class="stage">
-                        <div class="stage-header">
-                            <span class="stage-label ${stageKey}">${stageKey.toUpperCase()}</span>
-                            <span class="stage-title">${escapeHtml(stage.title)}</span>
-                            <span class="stage-count">${items.length} item${items.length !== 1 ? 's' : ''}</span>
-                        </div>
-                        ${renderStageTable(items, stageKey)}
+                            </tbody>
+                        </table>
                     </div>
                 `;
-            });
+            }
 
-            // Render EXCHANGE section (collapsed by default)
-            html += `
-                <div class="exchange-section" id="exchange-section">
-                    <div class="exchange-header" onclick="toggleExchange()">
-                        <span class="exchange-toggle">&#9654;</span>
-                        <span class="exchange-title">EXCHANGE</span>
-                        <span class="exchange-subtitle">${data.exchange.length} value delivered</span>
+            // Value delivered
+            if (pipelineData.valueDelivered.length > 0) {
+                html += `
+                    <div class="value-section">
+                        <div class="value-header">Value Delivered</div>
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Date</th>
+                                    <th>What</th>
+                                    <th>Impact</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                for (const value of pipelineData.valueDelivered) {
+                    html += `
+                        <tr>
+                            <td>${escapeHtml(value.date)}</td>
+                            <td>${escapeHtml(value.what)}</td>
+                            <td class="cell-content">${escapeHtml(value.impact)}</td>
+                        </tr>
+                    `;
+                }
+
+                html += `
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="exchange-content">
-                        ${renderExchangeTable(data.exchange)}
+                `;
+            }
+
+            document.getElementById('content').innerHTML = html;
+        }
+
+        // Show sessions view
+        function showSessions() {
+            currentView = 'sessions';
+            updateNav('sessions');
+
+            if (!pipelineData || pipelineData.sessions.length === 0) {
+                document.getElementById('content').innerHTML = '<div class="empty-state">No sessions found</div>';
+                return;
+            }
+
+            let html = '<div class="sessions-list">';
+
+            for (const session of pipelineData.sessions) {
+                const onclick = session.path ? `onclick="showSession('${escapeHtml(session.path)}')"` : '';
+                html += `
+                    <div class="session-row" ${onclick}>
+                        <div class="session-date">${escapeHtml(session.date)}</div>
+                        <div class="session-status">
+                            <span class="status-badge ${getStatusClass(session.status)}">${escapeHtml(session.status)}</span>
+                        </div>
+                        <div class="session-summary">${escapeHtml(session.summary)}</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            document.getElementById('content').innerHTML = html;
+        }
+
+        // Show initiative detail
+        async function showInitiative(path) {
+            currentView = 'initiative';
+            updateNav(null);
+
+            document.getElementById('content').innerHTML = '<div class="loading">Loading initiative...</div>';
+
+            try {
+                // Normalize path
+                let contentPath = path;
+                if (path.startsWith('initiatives/')) {
+                    contentPath = `${CONTENT_BASE}/artifacts/${path}/index.md`;
+                } else if (!path.includes('/')) {
+                    contentPath = `${CONTENT_BASE}/artifacts/initiatives/${path}/index.md`;
+                } else {
+                    contentPath = `${CONTENT_BASE}/artifacts/${path}/index.md`;
+                }
+
+                const response = await fetch(contentPath);
+                if (!response.ok) throw new Error('Initiative not found');
+                const text = await response.text();
+
+                renderInitiativeDetail(text, path);
+            } catch (error) {
+                console.error('Error loading initiative:', error);
+                document.getElementById('content').innerHTML = `
+                    <a class="back-btn" onclick="showPipeline()">← Back to Pipeline</a>
+                    <div class="empty-state">Unable to load initiative details. ${escapeHtml(error.message)}</div>
+                `;
+            }
+        }
+
+        // Render initiative detail
+        function renderInitiativeDetail(markdown, path) {
+            const data = parseInitiativeMarkdown(markdown);
+
+            let html = `
+                <a class="back-btn" onclick="showPipeline()">← Back to Pipeline</a>
+
+                <div class="detail-header">
+                    <h1 class="detail-title">${escapeHtml(data.title)}</h1>
+                    <div class="detail-meta">
+                        <span class="category-badge">${escapeHtml(data.category || 'Uncategorized')}</span>
+                        <span class="status-badge ${getStatusClass(data.status)}">${escapeHtml(data.status)}</span>
+                    </div>
+                </div>
+
+                <div class="move-card">
+                    <div class="move-card-header">MOVE Summary</div>
+                    <div class="move-grid">
+                        <div class="move-cell">
+                            <div class="move-cell-label">MAP</div>
+                            <div class="move-cell-content">${escapeHtml(data.move.map || 'TBD')}</div>
+                        </div>
+                        <div class="move-cell">
+                            <div class="move-cell-label">OUTCOME</div>
+                            <div class="move-cell-content">${escapeHtml(data.move.outcome || 'TBD')}</div>
+                        </div>
+                        <div class="move-cell">
+                            <div class="move-cell-label">VERIFY</div>
+                            <div class="move-cell-content">${escapeHtml(data.move.verify || 'TBD')}</div>
+                        </div>
+                        <div class="move-cell">
+                            <div class="move-cell-label">EXCHANGE</div>
+                            <div class="move-cell-content">${escapeHtml(data.move.exchange || 'TBD')}</div>
+                        </div>
                     </div>
                 </div>
             `;
 
-            container.innerHTML = html;
-        }
-
-        function renderStageTable(items, stageKey) {
-            if (items.length === 0) {
-                return '<div class="empty-state">No items in this stage</div>';
-            }
-
-            // Determine columns based on stage
-            const columns = {
-                map: ['item', 'type', 'status', 'next action'],
-                outcome: ['item', 'type', 'status', "what's happening"],
-                verify: ['item', 'type', 'testing with', 'feedback']
-            };
-
-            const cols = columns[stageKey] || Object.keys(items[0]);
-
-            let html = '<table class="items-table"><thead><tr>';
-            cols.forEach(col => {
-                html += `<th>${escapeHtml(col)}</th>`;
-            });
-            html += '</tr></thead><tbody>';
-
-            items.forEach(item => {
-                html += '<tr>';
-                cols.forEach((col, idx) => {
-                    const value = item[col] || '';
-                    if (idx === 0) {
-                        html += `<td><span class="item-name">${escapeHtml(value)}</span></td>`;
-                    } else if (col === 'type') {
-                        html += `<td><span class="item-type">${escapeHtml(value)}</span></td>`;
-                    } else {
-                        html += `<td class="item-status">${escapeHtml(value)}</td>`;
-                    }
-                });
-                html += '</tr>';
-            });
-
-            html += '</tbody></table>';
-            return html;
-        }
-
-        function renderExchangeTable(items) {
-            if (items.length === 0) {
-                return '<div class="empty-state">No value delivered yet</div>';
-            }
-
-            let html = '<table class="items-table"><thead><tr>';
-            html += '<th>Date</th><th>What</th><th>Impact</th>';
-            html += '</tr></thead><tbody>';
-
-            items.forEach(item => {
-                html += `<tr>
-                    <td>${escapeHtml(item.date || '')}</td>
-                    <td><span class="item-name">${escapeHtml(item.what || '')}</span></td>
-                    <td class="item-status">${escapeHtml(item.impact || '')}</td>
-                </tr>`;
-            });
-
-            html += '</tbody></table>';
-            return html;
-        }
-
-        function renderSessions() {
-            const container = document.getElementById('sessions-list');
-
-            if (state.sessions.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>No sessions recorded</div>';
-                return;
-            }
-
-            let html = '';
-            state.sessions.forEach(session => {
+            // Sub-projects
+            if (data.subprojects.length > 0) {
                 html += `
-                    <div class="session-item" data-session-id="${escapeHtml(session.id)}">
-                        <span class="session-date">${escapeHtml(session.date)}</span>
-                        <span class="session-type">${escapeHtml(session.type)}</span>
-                        <span class="session-status ${session.status}">${escapeHtml(session.status)}</span>
-                        <span class="session-summary">${escapeHtml(session.notes || '')}</span>
+                    <div class="subprojects">
+                        <div class="subprojects-header">Sub-Projects</div>
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>MAP</th>
+                                    <th>OUTCOME</th>
+                                    <th>VERIFY</th>
+                                    <th>EXCHANGE</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                for (const sub of data.subprojects) {
+                    html += `
+                        <tr>
+                            <td class="initiative-name">${escapeHtml(sub.name)}</td>
+                            <td class="cell-content">${escapeHtml(sub.map)}</td>
+                            <td class="cell-content">${escapeHtml(sub.outcome)}</td>
+                            <td class="cell-content">${escapeHtml(sub.verify)}</td>
+                            <td class="cell-content">${escapeHtml(sub.exchange)}</td>
+                            <td><span class="status-badge ${getStatusClass(sub.status)}">${escapeHtml(sub.status)}</span></td>
+                        </tr>
+                    `;
+                }
+
+                html += `
+                            </tbody>
+                        </table>
                     </div>
                 `;
-            });
+            }
 
-            container.innerHTML = html;
+            // Notes
+            if (data.notes) {
+                html += `
+                    <div class="notes-section">
+                        <div class="notes-content">${marked.parse(data.notes)}</div>
+                    </div>
+                `;
+            }
 
-            // Bind click handlers
-            container.querySelectorAll('.session-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    showSessionDetail(item.dataset.sessionId);
-                });
-            });
+            document.getElementById('content').innerHTML = html;
         }
 
-        function showSessionsList() {
-            document.getElementById('sessions-list').style.display = 'block';
-            document.getElementById('session-detail').classList.remove('active');
-            state.currentSession = null;
+        // Parse initiative markdown
+        function parseInitiativeMarkdown(text) {
+            const lines = text.split('\n');
+            const data = {
+                title: '',
+                category: '',
+                status: '',
+                move: { map: '', outcome: '', verify: '', exchange: '' },
+                subprojects: [],
+                notes: ''
+            };
+
+            let currentSection = null;
+            let notesStart = -1;
+            let inMoveTable = false;
+            let inSubTable = false;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+
+                // Title
+                if (line.startsWith('# ') && !data.title) {
+                    data.title = line.replace('# ', '');
+                    continue;
+                }
+
+                // Section headers
+                if (line === '## Category') { currentSection = 'category'; continue; }
+                if (line === '## Status') { currentSection = 'status'; continue; }
+                if (line === '## MOVE') { currentSection = 'move'; inMoveTable = false; continue; }
+                if (line === '## Sub-Projects') { currentSection = 'subprojects'; inSubTable = false; continue; }
+                if (line === '## Notes') { currentSection = 'notes'; notesStart = i + 1; continue; }
+                if (line === '## Related') { currentSection = 'related'; continue; }
+
+                // Parse category
+                if (currentSection === 'category' && line && !line.startsWith('#')) {
+                    data.category = line;
+                    currentSection = null;
+                }
+
+                // Parse status
+                if (currentSection === 'status' && line && !line.startsWith('#')) {
+                    data.status = line;
+                    currentSection = null;
+                }
+
+                // Parse MOVE table
+                if (currentSection === 'move' && line.startsWith('|')) {
+                    const cells = line.split('|').map(c => c.trim()).filter(c => c);
+
+                    if (!inMoveTable) {
+                        inMoveTable = true;
+                        continue;
+                    }
+
+                    if (cells.every(c => c.match(/^[-:]+$/))) continue;
+
+                    if (cells.length >= 4) {
+                        data.move.map = cells[0];
+                        data.move.outcome = cells[1];
+                        data.move.verify = cells[2];
+                        data.move.exchange = cells[3];
+                    }
+                }
+
+                // Parse sub-projects table
+                if (currentSection === 'subprojects' && line.startsWith('|')) {
+                    const cells = line.split('|').map(c => c.trim()).filter(c => c);
+
+                    if (!inSubTable) {
+                        inSubTable = true;
+                        continue;
+                    }
+
+                    if (cells.every(c => c.match(/^[-:]+$/))) continue;
+
+                    if (cells.length >= 6) {
+                        const linkMatch = cells[0].match(/\[([^\]]+)\]/);
+                        data.subprojects.push({
+                            name: linkMatch ? linkMatch[1] : cells[0],
+                            map: cells[1],
+                            outcome: cells[2],
+                            verify: cells[3],
+                            exchange: cells[4],
+                            status: cells[5]
+                        });
+                    }
+                }
+            }
+
+            // Extract notes
+            if (notesStart > 0) {
+                const notesLines = [];
+                for (let i = notesStart; i < lines.length; i++) {
+                    if (lines[i].trim() === '## Related') break;
+                    notesLines.push(lines[i]);
+                }
+                data.notes = notesLines.join('\n').trim();
+            }
+
+            return data;
         }
 
-        async function showSessionDetail(sessionId) {
-            const session = state.sessions.find(s => s.id === sessionId);
-            if (!session) return;
+        // Show session detail
+        async function showSession(path) {
+            currentView = 'session';
+            updateNav('sessions');
 
-            state.currentSession = sessionId;
+            document.getElementById('content').innerHTML = '<div class="loading">Loading session...</div>';
 
-            // Hide list, show detail
-            document.getElementById('sessions-list').style.display = 'none';
-            document.getElementById('session-detail').classList.add('active');
+            try {
+                // Normalize path
+                let basePath = path;
+                if (path.startsWith('../sessions/')) {
+                    basePath = path.replace('../sessions/', '');
+                } else if (path.startsWith('sessions/')) {
+                    basePath = path.replace('sessions/', '');
+                }
 
-            // Update header
-            document.getElementById('session-title').textContent = `${session.date} (${session.type})`;
-            document.getElementById('session-meta').innerHTML = `
-                <span class="session-status ${session.status}">${session.status}</span>
-            `;
+                // Clean trailing slash
+                basePath = basePath.replace(/\/$/, '');
 
-            // Load session content
-            const sessionPath = CONFIG.sessionsBase + sessionId + '/session.md';
-            const content = await fetchContent(sessionPath);
+                // Load session.md
+                const sessionFile = `${CONTENT_BASE}/sessions/${basePath}/session.md`;
+                const response = await fetch(sessionFile);
 
-            if (content) {
-                document.getElementById('session-content').innerHTML = marked.parse(content);
-            } else {
-                document.getElementById('session-content').innerHTML = '<div class="empty-state">Session content not available</div>';
+                if (!response.ok) throw new Error('Session not found');
+                const text = await response.text();
+
+                // Try to load meetings
+                const meetings = await loadMeetings(basePath);
+
+                renderSessionDetail(text, meetings, basePath);
+            } catch (error) {
+                console.error('Error loading session:', error);
+                document.getElementById('content').innerHTML = `
+                    <a class="back-btn" onclick="showSessions()">← Back to Sessions</a>
+                    <div class="empty-state">Unable to load session. ${escapeHtml(error.message)}</div>
+                `;
             }
         }
 
-        // === UTILITIES ===
-        function toggleExchange() {
-            document.getElementById('exchange-section').classList.toggle('open');
+        // Load meetings for a session
+        async function loadMeetings(sessionPath) {
+            const meetings = [];
+
+            // Try common meeting file patterns
+            const possibleMeetings = [
+                'aubrey-marketing-director.md',
+                'meeting-notes.md'
+            ];
+
+            for (const filename of possibleMeetings) {
+                try {
+                    const response = await fetch(`${CONTENT_BASE}/sessions/${sessionPath}/meetings/${filename}`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        const titleMatch = text.match(/^#\s+(.+)/m);
+                        meetings.push({
+                            filename: filename,
+                            title: titleMatch ? titleMatch[1] : filename.replace('.md', ''),
+                            path: `${sessionPath}/meetings/${filename}`
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            return meetings;
         }
 
+        // Render session detail
+        function renderSessionDetail(markdown, meetings, sessionPath) {
+            let html = `
+                <a class="back-btn" onclick="showSessions()">← Back to Sessions</a>
+                <div class="session-content">
+                    ${marked.parse(markdown)}
+                </div>
+            `;
+
+            // Meetings section
+            if (meetings.length > 0) {
+                html += `
+                    <div class="meetings-section">
+                        <h3>Meetings</h3>
+                `;
+
+                for (const meeting of meetings) {
+                    html += `
+                        <div class="meeting-item" onclick="showMeeting('${escapeHtml(meeting.path)}')">
+                            <div class="meeting-title">${escapeHtml(meeting.title)}</div>
+                        </div>
+                    `;
+                }
+
+                html += '</div>';
+            }
+
+            document.getElementById('content').innerHTML = html;
+        }
+
+        // Show meeting detail
+        async function showMeeting(path) {
+            document.getElementById('content').innerHTML = '<div class="loading">Loading meeting...</div>';
+
+            try {
+                const response = await fetch(`${CONTENT_BASE}/sessions/${path}`);
+                if (!response.ok) throw new Error('Meeting not found');
+                const text = await response.text();
+
+                const sessionPath = path.split('/meetings/')[0];
+
+                let html = `
+                    <a class="back-btn" onclick="showSession('${escapeHtml(sessionPath)}')">← Back to Session</a>
+                    <div class="session-content">
+                        ${marked.parse(text)}
+                    </div>
+                `;
+
+                document.getElementById('content').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading meeting:', error);
+                document.getElementById('content').innerHTML = `
+                    <a class="back-btn" onclick="showSessions()">← Back to Sessions</a>
+                    <div class="empty-state">Unable to load meeting. ${escapeHtml(error.message)}</div>
+                `;
+            }
+        }
+
+        // Update nav active state
+        function updateNav(page) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === page);
+            });
+        }
+
+        // Escape HTML
         function escapeHtml(str) {
             if (!str) return '';
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
-        }
-
-        // === POLLING ===
-        async function startPolling() {
-            setInterval(async () => {
-                await loadAllContent();
-                render();
-            }, CONFIG.pollInterval);
         }
     </script>
 </body>
